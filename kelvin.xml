@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>                                                                                                     
+<repositories version="1.0">
+	<repo priority="50" quality="experimental" status="unofficial">
+		<name>kelvin</name>
+		<description>The Gentoo Overlay created by Kelvin. For the packages that I want but not supported officially or exist in any overlays.</description>
+		<homepage>https://github.com/Kelvin-Ng/Kelvin-Gentoo-Overlay</homepage>
+		<owner>
+			<email>kelvin9302104@gmail.com</email>
+		</owner>
+		<source type="git">git@github.com:Kelvin-Ng/Kelvin-Gentoo-Overlay.git</source>
+	</repo>
+</repositories>
