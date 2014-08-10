@@ -4,12 +4,12 @@
 
 EAPI=4
 
-SRC_URI="https://github.com/snwh/moka-icon-theme/archive/master.zip"
+SRC_URI="http://jaist.dl.sourceforge.net/project/mokaproject/moka-icon-theme.zip"
 
 LICENSE="CC-BY-SA-4.0"
 SLOT="0"
 
-S="${WORKDIR}/${PN}-master"
+S="${WORKDIR}"
 
 src_install()
 {

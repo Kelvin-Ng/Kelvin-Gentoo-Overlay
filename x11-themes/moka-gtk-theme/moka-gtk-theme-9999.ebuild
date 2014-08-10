@@ -4,7 +4,7 @@
 
 EAPI=4
 
-SRC_URI="https://github.com/snwh/moka-gtk-theme/raw/master/moka-gtk-theme.zip"
+SRC_URI="http://jaist.dl.sourceforge.net/project/mokaproject/moka-gtk-theme.zip"
 
 LICENSE="GPL-3"
 SLOT="0"

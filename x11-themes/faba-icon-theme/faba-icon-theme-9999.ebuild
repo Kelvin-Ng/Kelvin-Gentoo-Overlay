@@ -4,7 +4,7 @@
 
 EAPI=4
 
-SRC_URI="https://github.com/snwh/faba-icon-theme/raw/master/faba-icon-theme.zip"
+SRC_URI="http://jaist.dl.sourceforge.net/project/mokaproject/faba-icon-theme.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
