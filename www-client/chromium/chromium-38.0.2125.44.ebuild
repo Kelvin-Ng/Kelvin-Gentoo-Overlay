@@ -178,7 +178,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-gcc-4.7-r0.patch"
 	epatch "${FILESDIR}/${PN}-system-jinja-r6.patch"
 	if use vaapi; then
-		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux.diff"
+		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_v${PV/.*/}.diff"
 	fi
 
 	epatch_user

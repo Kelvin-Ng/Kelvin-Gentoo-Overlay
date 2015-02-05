@@ -1,18 +1,70 @@
---- chrome/browser/ui/libgtk2ui/libgtk2ui.gyp.orig	2014-02-28 02:42:18.993134286 +0000
-+++ chrome/browser/ui/libgtk2ui/libgtk2ui.gyp	2014-02-28 02:43:37.633657361 +0000
-@@ -17,6 +17,7 @@
-         '../../../../build/linux/system.gyp:gconf',
-         '../../../../build/linux/system.gyp:gtk',
-         '../../../../build/linux/system.gyp:gtkprint',
-+        '../../../../printing/printing.gyp:cups',
-         '../../../../skia/skia.gyp:skia',
-         '../../../../ui/base/strings/ui_strings.gyp:ui_strings',
-         '../../../../ui/resources/ui_resources.gyp:ui_resources',
-@@ -29,7 +30,6 @@
-       ],
-       'defines': [
-         'LIBGTK2UI_IMPLEMENTATION',
--        'USE_CUPS',
-       ],
-       # Several of our source files are named _gtk2.cc. This isn't to
-       # differentiate them from their source files (ninja and make are sane
+Index: printing/backend/print_backend.h
+diff --git a/printing/backend/print_backend.h b/printing/backend/print_backend.h
+index e03ef42e37cf0785ba735f4a241310f70125a6e7..a8123325a613f527ba4e91a412ba09cd3225c8ec 100644
+--- a/printing/backend/print_backend.h
++++ b/printing/backend/print_backend.h
+@@ -111,7 +111,6 @@ class PRINTING_EXPORT PrintBackend
+ 
+   // Allocate a print backend. If |print_backend_settings| is NULL, default
+   // settings will be used.
+-  // Return NULL if no print backend available.
+   static scoped_refptr<PrintBackend> CreateInstance(
+       const base::DictionaryValue* print_backend_settings);
+ 
+Index: printing/backend/print_backend_dummy.cc
+diff --git a/printing/backend/print_backend_dummy.cc b/printing/backend/print_backend_dummy.cc
+index c73e5370720eda7a2f989401f37dc62c5e438e24..db269a75920d3c44381c87d67b91d923f0bfd8dc 100644
+--- a/printing/backend/print_backend_dummy.cc
++++ b/printing/backend/print_backend_dummy.cc
+@@ -13,10 +13,49 @@
+ 
+ namespace printing {
+ 
++class DummyPrintBackend : public PrintBackend {
++ public:
++  DummyPrintBackend() {
++  }
++
++  bool EnumeratePrinters(PrinterList* printer_list) override {
++    return false;
++  }
++
++  std::string GetDefaultPrinterName() override {
++    return std::string();
++  }
++
++  bool GetPrinterSemanticCapsAndDefaults(
++      const std::string& printer_name,
++      PrinterSemanticCapsAndDefaults* printer_info) override {
++    return false;
++  }
++
++  bool GetPrinterCapsAndDefaults(
++      const std::string& printer_name,
++      PrinterCapsAndDefaults* printer_info) override {
++    return false;
++  }
++
++  std::string GetPrinterDriverInfo(
++      const std::string& printer_name) override {
++    return std::string();
++  }
++
++  bool IsValidPrinter(const std::string& printer_name) override {
++    return false;
++  }
++
++ private:
++  ~DummyPrintBackend() {}
++
++  DISALLOW_COPY_AND_ASSIGN(DummyPrintBackend);
++};
++
+ scoped_refptr<PrintBackend> PrintBackend::CreateInstance(
+     const base::DictionaryValue* print_backend_settings) {
+-  NOTREACHED();
+-  return NULL;
++  return new DummyPrintBackend();
+ }
+ 
+ }  // namespace printing

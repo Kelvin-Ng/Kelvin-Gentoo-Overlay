@@ -174,7 +174,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-ffmpeg-r2.patch"
 	epatch "${FILESDIR}/${PN}-ffmpeg-r3.patch"
 	if use vaapi; then
-		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux.diff"
+		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_v${PV/.*/}.diff"
 	fi
 
 	epatch_user

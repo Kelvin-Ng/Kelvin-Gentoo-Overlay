@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-37.0.2062.94.ebuild,v 1.1 2014/08/23 22:43:51 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-41.0.2272.16.ebuild,v 1.1 2015/01/26 15:43:32 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -19,7 +19,8 @@ SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos neon pic pulseaudio selinux +tcmalloc vaapi"
+IUSE="bindist cups gnome gnome-keyring hidpi kerberos neon pic pulseaudio selinux +tcmalloc vaapi"
+RESTRICT="!bindist? ( bindist )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
@@ -47,7 +48,7 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	>=dev-libs/nss-3.14.3:=
 	dev-libs/re2:=
 	gnome? ( >=gnome-base/gconf-2.24.0:= )
-	gnome-keyring? ( gnome-base/libgnome-keyring:= )
+	gnome-keyring? ( >=gnome-base/libgnome-keyring-3.12:= )
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/flac:=
 	media-libs/fontconfig:=
@@ -82,7 +83,6 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	x11-libs/libXtst:=
 	x11-libs/pango:=
 	kerberos? ( virtual/krb5 )
-	selinux? ( sec-policy/selinux-chromium )
 	vaapi? ( || ( x11-libs/libva-vdpau-driver x11-libs/libva-intel-driver ) )"
 DEPEND="${RDEPEND}
 	!arm? (
@@ -101,16 +101,24 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	!<www-plugins/chrome-binary-plugins-37
 	x11-misc/xdg-utils
+	virtual/opengl
 	virtual/ttf-fonts
+	selinux? ( sec-policy/selinux-chromium )
 	tcmalloc? ( !<x11-drivers/nvidia-drivers-331.20 )"
 
 # Python dependencies. The DEPEND part needs to be kept in sync
 # with python_check_deps.
 DEPEND+=" $(python_gen_any_dep '
+	dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
+	dev-python/jinja[${PYTHON_USEDEP}]
+	dev-python/ply[${PYTHON_USEDEP}]
 	dev-python/simplejson[${PYTHON_USEDEP}]
 ')"
 python_check_deps() {
-	has_version "dev-python/simplejson[${PYTHON_USEDEP}]"
+	has_version "dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/jinja[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/ply[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/simplejson[${PYTHON_USEDEP}]"
 }
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
@@ -141,6 +149,13 @@ For other desktop environments, try one of the following:
 - x11-themes/tango-icon-theme
 "
 
+pkg_pretend() {
+	if [[ $(tc-getCC)$ == *gcc* ]] && \
+		[[ $(gcc-major-version)$(gcc-minor-version) -lt 48 ]]; then
+		die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
+	fi
+}
+
 pkg_setup() {
 	if [[ "${SLOT}" == "0" ]]; then
 		CHROMIUM_SUFFIX=""
@@ -170,11 +185,10 @@ src_prepare() {
 	#	touch out/Release/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	# fi
 
-	epatch "${FILESDIR}/${PN}-angle-r1.patch"
-	epatch "${FILESDIR}/${PN}-ffmpeg-r2.patch"
-	epatch "${FILESDIR}/${PN}-ffmpeg-r3.patch"
+	epatch "${FILESDIR}/${PN}-system-jinja-r7.patch"
+	epatch "${FILESDIR}/${PN}-cups-r0.patch"
 	if use vaapi; then
-		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_v${PV/.*/}.diff"
+		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_41.0.2272.16.patch"
 	fi
 
 	epatch_user
@@ -198,18 +212,22 @@ src_prepare() {
 		'net/third_party/nss' \
 		'third_party/WebKit' \
 		'third_party/angle' \
+		'third_party/angle/src/third_party/compiler' \
 		'third_party/brotli' \
 		'third_party/cacheinvalidation' \
-		'third_party/cld' \
+		'third_party/cld_2' \
 		'third_party/cros_system_api' \
+		'third_party/cython/python_flags.py' \
 		'third_party/dom_distiller_js' \
+		'third_party/dom_distiller_js/package/proto_gen/third_party/dom_distiller_js' \
 		'third_party/ffmpeg' \
 		'third_party/fips181' \
 		'third_party/flot' \
+		'third_party/google_input_tools' \
+		'third_party/google_input_tools/third_party/closure_library' \
+		'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 		'third_party/hunspell' \
 		'third_party/iccjpeg' \
-		'third_party/icu/icu.isolate' \
-		'third_party/jinja2' \
 		'third_party/jstemplate' \
 		'third_party/khronos' \
 		'third_party/leveldatabase' \
@@ -217,26 +235,31 @@ src_prepare() {
 		'third_party/libjingle' \
 		'third_party/libphonenumber' \
 		'third_party/libsrtp' \
+		'third_party/libudev' \
 		'third_party/libusb' \
 		'third_party/libvpx' \
-		'third_party/libwebm' \
+		'third_party/libvpx/source/libvpx/third_party/x86inc' \
 		'third_party/libxml/chromium' \
 		'third_party/libXNVCtrl' \
 		'third_party/libyuv' \
 		'third_party/lss' \
 		'third_party/lzma_sdk' \
-		'third_party/markupsafe' \
 		'third_party/mesa' \
 		'third_party/modp_b64' \
 		'third_party/mt19937ar' \
 		'third_party/npapi' \
+		'third_party/openmax_dl' \
 		'third_party/opus' \
 		'third_party/ots' \
 		'third_party/pdfium' \
+		'third_party/pdfium/third_party/bigint' \
+		'third_party/pdfium/third_party/freetype' \
+		'third_party/pdfium/third_party/logging.h' \
+		'third_party/pdfium/third_party/macros.h' \
+		'third_party/pdfium/third_party/numerics' \
+		'third_party/pdfium/third_party/template_util.h' \
 		'third_party/polymer' \
-		'third_party/ply' \
 		'third_party/protobuf' \
-		'third_party/pywebsocket' \
 		'third_party/qcms' \
 		'third_party/readability' \
 		'third_party/sfntly' \
@@ -246,6 +269,12 @@ src_prepare() {
 		'third_party/tcmalloc' \
 		'third_party/tlslite' \
 		'third_party/trace-viewer' \
+		'third_party/trace-viewer/third_party/components/polymer' \
+		'third_party/trace-viewer/third_party/d3' \
+		'third_party/trace-viewer/third_party/gl-matrix' \
+		'third_party/trace-viewer/third_party/jszip' \
+		'third_party/trace-viewer/third_party/tvcm' \
+		'third_party/trace-viewer/third_party/tvcm/third_party/beautifulsoup/polymer_soup.py' \
 		'third_party/undoview' \
 		'third_party/usrsctp' \
 		'third_party/webdriver' \
@@ -254,6 +283,8 @@ src_prepare() {
 		'third_party/x86inc' \
 		'third_party/zlib/google' \
 		'url/third_party/mozilla' \
+		'v8/src/third_party/fdlibm' \
+		'v8/src/third_party/kernel' \
 		'v8/src/third_party/valgrind' \
 		'third_party/libva' \
 		--do-remove || die
@@ -289,7 +320,7 @@ src_configure() {
 	# TODO: use_system_libvpx (http://crbug.com/347823).
 	# TODO: use_system_libusb (http://crbug.com/266149).
 	# TODO: use_system_opus (https://code.google.com/p/webrtc/issues/detail?id=3077).
-	# TODO: use_system_protobuf (bug #503084).
+	# TODO: use_system_protobuf (bug #525560).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	myconf+="
@@ -306,7 +337,6 @@ src_configure() {
 		-Duse_system_libxslt=1
 		-Duse_system_minizip=1
 		-Duse_system_nspr=1
-		-Duse_system_openssl=1
 		-Duse_system_re2=1
 		-Duse_system_snappy=1
 		-Duse_system_speex=1
@@ -329,6 +359,7 @@ src_configure() {
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
+		$(gyp_use hidpi enable_hidpi)
 		$(gyp_use kerberos)
 		$(gyp_use pulseaudio)
 		$(gyp_use tcmalloc use_allocator tcmalloc none)"
@@ -350,19 +381,16 @@ src_configure() {
 		-Dlogging_like_official_build=1"
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
+	# Do not use bundled clang.
 	myconf+="
+		-Dclang=0
+		-Dhost_clang=0
 		-Dlinux_use_bundled_binutils=0
 		-Dlinux_use_bundled_gold=0
 		-Dlinux_use_gold_flags=0"
 
 	# Always support proprietary codecs.
 	myconf+=" -Dproprietary_codecs=1"
-
-	# Set python version and libdir so that python_arch.sh can find libpython.
-	# Bug 492864.
-	myconf+="
-		-Dpython_ver=${EPYTHON#python}
-		-Dsystem_libdir=$(get_libdir)"
 
 	ffmpeg_branding="Chromium"
 	if ! use bindist; then
@@ -541,6 +569,7 @@ src_install() {
 	popd
 
 	insinto "${CHROMIUM_HOME}"
+	doins out/Release/*.bin || die
 	doins out/Release/*.pak || die
 
 	doins -r out/Release/locales || die

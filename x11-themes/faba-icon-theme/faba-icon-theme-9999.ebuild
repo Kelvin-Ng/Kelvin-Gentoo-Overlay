@@ -2,18 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
-SRC_URI="http://jaist.dl.sourceforge.net/project/mokaproject/faba-icon-theme.zip"
+inherit eutils git-2
 
-LICENSE="GPL-3"
+SRC_URL=""
+EGIT_REPO_URI="https://github.com/moka-project/faba-icon-theme.git"
+
+LICENSE="LGPL-3"
 SLOT="0"
-
-S="${WORKDIR}"
 
 src_install()
 {
-	mkdir -p ${D}/usr/share/icons/
-	cp -R ./Faba/ ${D}/usr/share/icons/
+	insinto /usr/share/icons
+	doins -r ${WORKDIR}/${P}/Faba || die
 }
 
