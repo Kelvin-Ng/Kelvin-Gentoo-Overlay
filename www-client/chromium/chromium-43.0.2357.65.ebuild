@@ -21,6 +21,7 @@ SLOT="0"
 KEYWORDS="amd64 ~arm x86"
 IUSE="cups gnome gnome-keyring hidpi kerberos neon pic +proprietary-codecs pulseaudio selinux +tcmalloc widevine vaapi nacl"
 RESTRICT="proprietary-codecs? ( bindist )"
+REQUIRED_USE="arm? ( !nacl )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
