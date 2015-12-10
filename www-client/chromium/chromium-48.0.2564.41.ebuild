@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-43.0.2357.65.ebuild,v 1.4 2015/05/20 20:13:44 phajdan.jr Exp $
+# $Id$
 
 EAPI="5"
 PYTHON_COMPAT=( python2_7 )
@@ -16,12 +16,13 @@ DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
 SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.xz"
 
-LICENSE="BSD"
+LICENSE="BSD hotwording? ( no-source-code )"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE="cups gnome gnome-keyring hidpi kerberos neon pic +proprietary-codecs pulseaudio selinux +tcmalloc widevine vaapi nacl"
-RESTRICT="proprietary-codecs? ( bindist )"
-REQUIRED_USE="arm? ( !nacl )"
+IUSE="cups gn gnome gnome-keyring gtk3 +hangouts hidpi hotwording kerberos neon pic +proprietary-codecs pulseaudio selinux +system-ffmpeg +tcmalloc widevine vaapi"
+RESTRICT="!system-ffmpeg? ( proprietary-codecs? ( bindist ) )"
+
+REQUIRED_USE="gn? ( kerberos !system-ffmpeg )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
@@ -30,43 +31,32 @@ QA_FLAGS_IGNORED=".*\.nexe"
 # right tools for it, bug #469144 .
 QA_PRESTRIPPED=".*\.nexe"
 
-RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
+RDEPEND="
 	app-arch/bzip2:=
-	app-arch/snappy:=
 	cups? ( >=net-print/cups-1.3.11:= )
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat:=
 	dev-libs/glib:=
-	dev-libs/icu:=
 	>=dev-libs/jsoncpp-0.5.0-r1:=
-	>=dev-libs/libevent-1.4.13:=
-	dev-libs/libxml2:=[icu]
-	dev-libs/libxslt:=
 	dev-libs/nspr:=
 	>=dev-libs/nss-3.14.3:=
-	dev-libs/re2:=
 	gnome? ( >=gnome-base/gconf-2.24.0:= )
 	gnome-keyring? ( >=gnome-base/libgnome-keyring-3.12:= )
 	>=media-libs/alsa-lib-1.0.19:=
-	media-libs/flac:=
 	media-libs/fontconfig:=
 	media-libs/freetype:=
-	media-libs/harfbuzz:=[icu(+)]
 	media-libs/libexif:=
-	>=media-libs/libjpeg-turbo-1.2.0-r1:=
-	media-libs/libpng:0=
-	>=media-libs/libwebp-0.4.0:=
-	>=media-libs/libvpx-1.4.0:=
 	media-libs/speex:=
 	pulseaudio? ( media-sound/pulseaudio:= )
+	system-ffmpeg? ( >=media-video/ffmpeg-2.7.2:=[opus,vorbis,vpx] )
 	sys-apps/dbus:=
 	sys-apps/pciutils:=
 	>=sys-libs/libcap-2.22:=
-	sys-libs/zlib:=[minizip]
 	virtual/udev
 	x11-libs/cairo:=
 	x11-libs/gdk-pixbuf:=
-	x11-libs/gtk+:2=
+	gtk3? ( x11-libs/gtk+:3= )
+	!gtk3? ( x11-libs/gtk+:2= )
 	x11-libs/libdrm
 	x11-libs/libX11:=
 	x11-libs/libXcomposite:=
@@ -82,6 +72,21 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	x11-libs/libXtst:=
 	x11-libs/pango:=
 	kerberos? ( virtual/krb5 )
+	!gn? (
+		>=app-accessibility/speech-dispatcher-0.8:=
+		app-arch/snappy:=
+		>=dev-libs/icu-55.1:=
+		>=dev-libs/libevent-1.4.13:=
+		dev-libs/libxml2:=[icu]
+		dev-libs/libxslt:=
+		dev-libs/re2:=
+		media-libs/flac:=
+		media-libs/harfbuzz:=[icu(+)]
+		>=media-libs/libjpeg-turbo-1.2.0-r1:=
+		media-libs/libpng:0=
+		>=media-libs/libwebp-0.4.0:=
+		sys-libs/zlib:=[minizip]
+	)
 	vaapi? ( || ( x11-libs/libva-vdpau-driver x11-libs/libva-intel-driver ) )"
 DEPEND="${RDEPEND}
 	!arm? (
@@ -94,10 +99,7 @@ DEPEND="${RDEPEND}
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
-	virtual/pkgconfig
-	widevine? ( www-plugins/chrome-binary-plugins[widevine] )"
-	# We build-dep on having widevine, because the patch
-	# below must extract the current version.
+	virtual/pkgconfig"
 
 # For nvidia-drivers blocker, see bug #413637 .
 RDEPEND+="
@@ -107,18 +109,23 @@ RDEPEND+="
 	virtual/opengl
 	virtual/ttf-fonts
 	selinux? ( sec-policy/selinux-chromium )
-	tcmalloc? ( !<x11-drivers/nvidia-drivers-331.20 )"
+	tcmalloc? ( !<x11-drivers/nvidia-drivers-331.20 )
+	widevine? ( www-plugins/chrome-binary-plugins[widevine(-)] )"
 
 # Python dependencies. The DEPEND part needs to be kept in sync
 # with python_check_deps.
 DEPEND+=" $(python_gen_any_dep '
 	dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+	dev-python/html5lib[${PYTHON_USEDEP}]
 	dev-python/jinja[${PYTHON_USEDEP}]
 	dev-python/ply[${PYTHON_USEDEP}]
 	dev-python/simplejson[${PYTHON_USEDEP}]
 ')"
 python_check_deps() {
 	has_version "dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/beautifulsoup:4[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/html5lib[${PYTHON_USEDEP}]" && \
 		has_version "dev-python/jinja[${PYTHON_USEDEP}]" && \
 		has_version "dev-python/ply[${PYTHON_USEDEP}]" && \
 		has_version "dev-python/simplejson[${PYTHON_USEDEP}]"
@@ -145,7 +152,7 @@ are not displayed properly:
 Depending on your desktop environment, you may need
 to install additional packages to get icons on the Downloads page.
 
-For KDE, the required package is kde-base/oxygen-icons.
+For KDE, the required package is kde-frameworks/oxygen-icons.
 
 For other desktop environments, try one of the following:
 - x11-themes/gnome-icon-theme
@@ -158,7 +165,8 @@ pkg_pretend() {
 		die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
 	fi
 
-	# Check build requirements, bug #541816 .
+	# Check build requirements, bug #541816 and bug #471810 .
+	CHECKREQS_MEMORY="3G"
 	CHECKREQS_DISK_BUILD="5G"
 	eshopts_push -s extglob
 	if is-flagq '-g?(gdb)?([1-9])'; then
@@ -183,44 +191,52 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# if ! use arm; then
-	#	mkdir -p out/Release/gen/sdk/toolchain || die
-	#	# Do not preserve SELinux context, bug #460892 .
-	#	cp -a --no-preserve=context /usr/$(get_libdir)/nacl-toolchain-newlib \
-	#		out/Release/gen/sdk/toolchain/linux_x86_newlib || die
-	#	touch out/Release/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
-	# fi
-
-	if use nacl; then
-		python build/download_nacl_toolchains.py \
-			--packages nacl_x86_newlib,pnacl_newlib,pnacl_translator \
-			sync --extract
-	fi
-
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r1.patch"
 	epatch "${FILESDIR}/${PN}-system-jinja-r7.patch"
-	epatch "${FILESDIR}/${PN}-system-libvpx-r0.patch"
+	epatch "${FILESDIR}/${PN}-widevine-r1.patch"
+	epatch "${FILESDIR}/${PN}-last-commit-position-r0.patch"
+	epatch "${FILESDIR}/${PN}-snapshot-toolchain-r0.patch"
+	epatch "${FILESDIR}/${PN}-rpath-r0.patch"
+	epatch "${FILESDIR}/${PN}-system-icu-r0.patch"
 
 	if use vaapi; then
-		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_42.0.2311.60.patch"
-	fi
-
-	if use widevine; then
-		local WIDEVINE_VERSION="$(< "${ROOT}/usr/$(get_libdir)/chromium-browser/widevine.version")"
-		[[ -z $WIDEVINE_VERSION ]] && die "Could not determine Widevine version."
-		sed -e "s/@WIDEVINE_VERSION@/${WIDEVINE_VERSION}/" "${FILESDIR}/${PN}-widevine.patch" > "${T}/${PN}-widevine-${WIDEVINE_VERSION}.patch"
-		epatch "${T}/${PN}-widevine-${WIDEVINE_VERSION}.patch"
-		local WIDEVINE_SUPPORTED_ARCHS="x64 ia32"
-		local arch
-		for arch in $WIDEVINE_SUPPORTED_ARCHS; do
-			mkdir -p third_party/widevine/cdm/linux/$arch
-			cp "${ROOT}/usr/$(get_libdir)/chromium-browser/libwidevinecdm.so" third_party/widevine/cdm/widevine_cdm_*.h third_party/widevine/cdm/linux/$arch/ || die "Could not copy headers for Widevine."
-		done
+		epatch -p1 "${FILESDIR}/enable_vaapi_on_linux_48.0.2564.23.patch"
 	fi
 
 	epatch_user
 
+	local conditional_bundled_libraries=""
+	if ! use system-ffmpeg; then
+		conditional_bundled_libraries+=" third_party/ffmpeg"
+	fi
+	if use gn; then
+		conditional_bundled_libraries+="
+			third_party/adobe
+			third_party/ffmpeg
+			third_party/flac
+			third_party/harfbuzz-ng
+			third_party/icu
+			third_party/jinja2
+			third_party/libevent
+			third_party/libjpeg_turbo
+			third_party/libpng
+			third_party/libwebp
+			third_party/libxml
+			third_party/libxslt
+			third_party/markupsafe
+			third_party/re2
+			third_party/snappy
+			third_party/speech-dispatcher
+			third_party/usb_ids
+			third_party/xdg-utils
+			third_party/yasm
+			third_party/zlib
+		"
+	fi
+
 	# Remove most bundled libraries. Some are still needed.
 	build/linux/unbundle/remove_bundled_libraries.py \
+		${conditional_bundled_libraries} \
 		'base/third_party/dmg_fp' \
 		'base/third_party/dynamic_annotations' \
 		'base/third_party/icu' \
@@ -240,14 +256,23 @@ src_prepare() {
 		'third_party/analytics' \
 		'third_party/angle' \
 		'third_party/angle/src/third_party/compiler' \
+		'third_party/boringssl' \
 		'third_party/brotli' \
 		'third_party/cacheinvalidation' \
+		'third_party/catapult' \
+		'third_party/catapult/third_party/py_vulcanize' \
+		'third_party/catapult/third_party/py_vulcanize/third_party/rcssmin' \
+		'third_party/catapult/third_party/py_vulcanize/third_party/rjsmin' \
+		'third_party/catapult/tracing/third_party/components/polymer' \
+		'third_party/catapult/tracing/third_party/d3' \
+		'third_party/catapult/tracing/third_party/gl-matrix' \
+		'third_party/catapult/tracing/third_party/jszip' \
 		'third_party/cld_2' \
 		'third_party/cros_system_api' \
 		'third_party/cython/python_flags.py' \
+		'third_party/devscripts' \
 		'third_party/dom_distiller_js' \
 		'third_party/dom_distiller_js/dist/proto_gen/third_party/dom_distiller_js' \
-		'third_party/ffmpeg' \
 		'third_party/fips181' \
 		'third_party/flot' \
 		'third_party/google_input_tools' \
@@ -258,6 +283,7 @@ src_prepare() {
 		'third_party/jstemplate' \
 		'third_party/khronos' \
 		'third_party/leveldatabase' \
+		'third_party/libXNVCtrl' \
 		'third_party/libaddressinput' \
 		'third_party/libjingle' \
 		'third_party/libphonenumber' \
@@ -265,8 +291,10 @@ src_prepare() {
 		'third_party/libsrtp' \
 		'third_party/libudev' \
 		'third_party/libusb' \
+		'third_party/libvpx_new' \
+		'third_party/libvpx_new/source/libvpx/third_party/x86inc' \
 		'third_party/libxml/chromium' \
-		'third_party/libXNVCtrl' \
+		'third_party/libwebm' \
 		'third_party/libyuv' \
 		'third_party/lss' \
 		'third_party/lzma_sdk' \
@@ -279,26 +307,22 @@ src_prepare() {
 		'third_party/opus' \
 		'third_party/ots' \
 		'third_party/pdfium' \
+		'third_party/pdfium/third_party/agg23' \
 		'third_party/pdfium/third_party/base' \
 		'third_party/pdfium/third_party/bigint' \
 		'third_party/pdfium/third_party/freetype' \
+		'third_party/pdfium/third_party/lcms2-2.6' \
+		'third_party/pdfium/third_party/libjpeg' \
+		'third_party/pdfium/third_party/libopenjpeg20' \
+		'third_party/pdfium/third_party/zlib_v128' \
 		'third_party/polymer' \
 		'third_party/protobuf' \
 		'third_party/qcms' \
-		'third_party/readability' \
 		'third_party/sfntly' \
 		'third_party/skia' \
 		'third_party/smhasher' \
 		'third_party/sqlite' \
 		'third_party/tcmalloc' \
-		'third_party/trace-viewer' \
-		'third_party/trace-viewer/third_party/components/polymer' \
-		'third_party/trace-viewer/third_party/d3' \
-		'third_party/trace-viewer/third_party/gl-matrix' \
-		'third_party/trace-viewer/third_party/jszip' \
-		'third_party/trace-viewer/third_party/tvcm' \
-		'third_party/trace-viewer/third_party/tvcm/third_party/beautifulsoup/polymer_soup.py' \
-		'third_party/undoview' \
 		'third_party/usrsctp' \
 		'third_party/web-animations-js' \
 		'third_party/webdriver' \
@@ -308,51 +332,42 @@ src_prepare() {
 		'third_party/zlib/google' \
 		'url/third_party/mozilla' \
 		'v8/src/third_party/fdlibm' \
-		'v8/src/third_party/kernel' \
 		'v8/src/third_party/valgrind' \
 		'third_party/libva' \
-		'third_party/libevent' \
-		'native_client/src/third_party/dlmalloc' \
 		--do-remove || die
 }
 
 src_configure() {
-	local myconf=""
+	local myconf_gyp=""
+	local myconf_gn=""
+
+	# GN needs explicit config for Debug/Release as opposed to inferring it from build directory.
+	myconf_gn+=" is_debug=false"
 
 	# Never tell the build system to "enable" SSE2, it has a few unexpected
 	# additions, bug #336871.
-	myconf+=" -Ddisable_sse2=1"
+	myconf_gyp+=" -Ddisable_sse2=1"
 
-	if ! use nacl ; then
-		myconf+=" -Ddisable_nacl=1"
-	fi
-
-	# Disable glibc Native Client toolchain, we don't need it (bug #417019).
-	# TODO: what does this mean?
-	myconf+=" -Ddisable_glibc=1"
-
-	if ! use nacl ; then
-		myconf+=" -Ddisable_pnacl=1"
-	fi
-
-	# It would be awkward for us to tar the toolchain and get it untarred again
-	# during the build.
-	# myconf+=" -Ddisable_newlib_untar=1"
+	# Disable nacl, we can't build without pnacl (http://crbug.com/269560).
+	myconf_gyp+=" -Ddisable_nacl=1"
+	myconf_gn+=" enable_nacl=false"
 
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
-	myconf+=" -Dflapper_version_h_file=${T}/flapper_version.h"
+	myconf_gyp+=" -Dflapper_version_h_file=${T}/flapper_version.h"
 
 	# Use system-provided libraries.
 	# TODO: use_system_hunspell (upstream changes needed).
 	# TODO: use_system_libsrtp (bug #459932).
 	# TODO: use_system_libusb (http://crbug.com/266149).
+	# TODO: use_system_libvpx (http://crbug.com/494939).
 	# TODO: use_system_opus (https://code.google.com/p/webrtc/issues/detail?id=3077).
 	# TODO: use_system_protobuf (bug #525560).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
-	myconf+="
+	myconf_gyp+="
 		-Duse_system_bzip2=1
+		-Duse_system_ffmpeg=$(usex system-ffmpeg 1 0)
 		-Duse_system_flac=1
 		-Duse_system_harfbuzz=1
 		-Duse_system_icu=1
@@ -361,7 +376,6 @@ src_configure() {
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
 		-Duse_system_libwebp=1
-		-Duse_system_libvpx=1
 		-Duse_system_libxml=1
 		-Duse_system_libxslt=1
 		-Duse_system_minizip=1
@@ -373,51 +387,59 @@ src_configure() {
 		-Duse_system_zlib=1"
 
 	# Needed for system icu - we don't need additional data files.
-	myconf+=" -Dicu_use_data_file_flag=0"
+	myconf_gyp+=" -Dicu_use_data_file_flag=0"
 
 	# TODO: patch gyp so that this arm conditional is not needed.
 	if ! use arm; then
-		myconf+="
+		myconf_gyp+="
 			-Duse_system_yasm=1"
 	fi
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
-	myconf+="
+	myconf_gyp+="
 		$(gyp_use cups)
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
+		$(gyp_use gtk3)
+		$(gyp_use hangouts enable_hangout_services_extension)
 		$(gyp_use hidpi enable_hidpi)
+		$(gyp_use hotwording enable_hotwording)
 		$(gyp_use kerberos)
 		$(gyp_use pulseaudio)
-		$(gyp_use tcmalloc use_allocator tcmalloc none)"
+		$(gyp_use tcmalloc use_allocator tcmalloc none)
+		$(gyp_use widevine enable_widevine)"
+
+	myconf_gn+=" use_cups=$(usex cups true false)"
 
 	# Use explicit library dependencies instead of dlopen.
 	# This makes breakages easier to detect by revdep-rebuild.
-	myconf+="
+	myconf_gyp+="
 		-Dlinux_link_gsettings=1
 		-Dlinux_link_libpci=1
 		-Dlinux_link_libspeechd=1
 		-Dlibspeechd_h_prefix=speech-dispatcher/"
 
 	# TODO: use the file at run time instead of effectively compiling it in.
-	myconf+="
+	myconf_gyp+="
 		-Dusb_ids_path=/usr/share/misc/usb.ids"
 
 	# Save space by removing DLOG and DCHECK messages (about 6% reduction).
-	myconf+="
+	myconf_gyp+="
 		-Dlogging_like_official_build=1"
 
 	if [[ $(tc-getCC) == *clang* ]]; then
-		myconf+=" -Dclang=1"
+		myconf_gyp+=" -Dclang=1"
+		myconf_gn+=" is_clang=true"
 	else
-		myconf+=" -Dclang=0"
+		myconf_gyp+=" -Dclang=0"
+		myconf_gn+=" is_clang=false"
 	fi
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	# Do not use bundled clang.
-	myconf+="
+	myconf_gyp+="
 		-Dclang_use_chrome_plugins=0
 		-Dhost_clang=0
 		-Dlinux_use_bundled_binutils=0
@@ -425,13 +447,13 @@ src_configure() {
 		-Dlinux_use_gold_flags=0"
 
 	ffmpeg_branding="$(usex proprietary-codecs Chrome Chromium)"
-	myconf+=" -Dproprietary_codecs=1 -Dffmpeg_branding=${ffmpeg_branding}"
+	myconf_gyp+=" -Dproprietary_codecs=1 -Dffmpeg_branding=${ffmpeg_branding}"
 
 	# Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
 	# Note: these are for Gentoo use ONLY. For your own distribution,
 	# please get your own set of keys. Feel free to contact chromium@gentoo.org
 	# for more info.
-	myconf+=" -Dgoogle_api_key=AIzaSyDEAOvatFo0eTgsV_ZlEzx0ObmepsMzfAc
+	myconf_gyp+=" -Dgoogle_api_key=AIzaSyDEAOvatFo0eTgsV_ZlEzx0ObmepsMzfAc
 		-Dgoogle_default_client_id=329227923882.apps.googleusercontent.com
 		-Dgoogle_default_client_secret=vgKG0NNv7GoDpbtoFNLxCUXu"
 
@@ -449,32 +471,33 @@ src_configure() {
 		local CTARGET=${CTARGET:-${CHOST}}
 		if [[ $(tc-is-softfloat) == "no" ]]; then
 
-			myconf+=" -Darm_float_abi=hard"
+			myconf_gyp+=" -Darm_float_abi=hard"
 		fi
 		filter-flags "-mfpu=*"
-		use neon || myconf+=" -Darm_fpu=${ARM_FPU:-vfpv3-d16}"
+		use neon || myconf_gyp+=" -Darm_fpu=${ARM_FPU:-vfpv3-d16}"
 
 		if [[ ${CTARGET} == armv[78]* ]]; then
-			myconf+=" -Darmv7=1"
+			myconf_gyp+=" -Darmv7=1"
 		else
-			myconf+=" -Darmv7=0"
+			myconf_gyp+=" -Darmv7=0"
 		fi
-		myconf+=" -Dsysroot=
+		myconf_gyp+=" -Dsysroot=
 			$(gyp_use neon arm_neon)
 			-Ddisable_nacl=1"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
 
-	myconf+=" -Dtarget_arch=${target_arch}"
+	myconf_gyp+=" -Dtarget_arch=${target_arch}"
 
 	# Make sure that -Werror doesn't get added to CFLAGS by the build system.
 	# Depending on GCC version the warnings are different and we don't want
 	# the build to fail because of that.
-	myconf+=" -Dwerror="
+	myconf_gyp+=" -Dwerror="
+	myconf_gn+=" treat_warnings_as_errors=false"
 
 	# Disable fatal linker warnings, bug 506268.
-	myconf+=" -Ddisable_fatal_linker_warnings=1"
+	myconf_gyp+=" -Ddisable_fatal_linker_warnings=1"
 
 	# Avoid CFLAGS problems, bug #352457, bug #390147.
 	if ! use custom-cflags; then
@@ -488,42 +511,54 @@ src_configure() {
 
 		# Prevent libvpx build failures. Bug 530248, 544702, 546984.
 		if [[ ${myarch} == amd64 || ${myarch} == x86 ]]; then
-			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx2
+			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx -mno-avx2
 		fi
 	fi
 
 	# Make sure the build system will use the right tools, bug #340795.
-	tc-export AR CC CXX RANLIB
+	tc-export AR CC CXX NM
 
 	# Tools for building programs to be executed on the build system, bug #410883.
-	export AR_host=$(tc-getBUILD_AR)
-	export CC_host=$(tc-getBUILD_CC)
-	export CXX_host=$(tc-getBUILD_CXX)
-	export LD_host=${CXX_host}
+	if tc-is-cross-compiler; then
+		export AR_host=$(tc-getBUILD_AR)
+		export CC_host=$(tc-getBUILD_CC)
+		export CXX_host=$(tc-getBUILD_CXX)
+		export NM_host=$(tc-getBUILD_NM)
+	fi
 
 	# Bug 491582.
 	export TMPDIR="${WORKDIR}/temp"
-	mkdir -m 755 "${TMPDIR}" || die
+	mkdir -p -m 755 "${TMPDIR}" || die
 
-	local build_ffmpeg_args=""
-	if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
-		build_ffmpeg_args+=" --disable-asm"
+	# TODO: also do this for GN bundled ffmpeg build.
+	if ! use system-ffmpeg && ! use gn; then
+		local build_ffmpeg_args=""
+		if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
+			build_ffmpeg_args+=" --disable-asm"
+		fi
+
+		# Re-configure bundled ffmpeg. See bug #491378 for example reasons.
+		einfo "Configuring bundled ffmpeg..."
+		pushd third_party/ffmpeg > /dev/null || die
+		chromium/scripts/build_ffmpeg.py linux ${ffmpeg_target_arch} \
+			--branding ${ffmpeg_branding} -- ${build_ffmpeg_args} || die
+		chromium/scripts/copy_config.sh || die
+		chromium/scripts/generate_gyp.py || die
+		popd > /dev/null || die
 	fi
-
-	# Re-configure bundled ffmpeg. See bug #491378 for example reasons.
-	einfo "Configuring bundled ffmpeg..."
-	pushd third_party/ffmpeg > /dev/null || die
-	chromium/scripts/build_ffmpeg.py linux ${ffmpeg_target_arch} \
-		--branding ${ffmpeg_branding} -- ${build_ffmpeg_args} || die
-	chromium/scripts/copy_config.sh || die
-	chromium/scripts/generate_gyp.py || die
-	popd > /dev/null || die
 
 	third_party/libaddressinput/chromium/tools/update-strings.py || die
 
+	touch chrome/test/data/webui/i18n_process_css_test.html || die
+
 	einfo "Configuring Chromium..."
-	build/linux/unbundle/replace_gyp_files.py ${myconf} || die
-	egyp_chromium ${myconf} || die
+	if use gn; then
+		tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "${myconf_gn}" || die
+		out/Release/gn gen --args="${myconf_gn}" out/Release || die
+	else
+		build/linux/unbundle/replace_gyp_files.py ${myconf_gyp} || die
+		egyp_chromium ${myconf_gyp} || die
+	fi
 }
 
 eninja() {
@@ -546,9 +581,11 @@ eninja() {
 src_compile() {
 	local ninja_targets="chrome chrome_sandbox chromedriver"
 
-	# Build mksnapshot and pax-mark it.
-	eninja -C out/Release mksnapshot || die
-	pax-mark m out/Release/mksnapshot
+	if ! use gn; then
+		# Build mksnapshot and pax-mark it.
+		eninja -C out/Release mksnapshot || die
+		pax-mark m out/Release/mksnapshot
+	fi
 
 	# Even though ninja autodetects number of CPUs, we respect
 	# user's options, for debugging with -j 1 or any other reason.
@@ -565,12 +602,14 @@ src_install() {
 	fperms 4755 "${CHROMIUM_HOME}/chrome-sandbox"
 
 	doexe out/Release/chromedriver || die
+	use widevine && doexe out/Release/libwidevinecdmadapter.so
 
-	if use nacl; then
-		doexe out/Release/nacl_helper{,_bootstrap} || die
-		insinto "${CHROMIUM_HOME}"
-		doins out/Release/nacl_irt_*.nexe || die
-	fi
+	# if ! use arm; then
+	#	doexe out/Release/nacl_helper{,_bootstrap} || die
+	#	insinto "${CHROMIUM_HOME}"
+	#	doins out/Release/nacl_irt_*.nexe || die
+	#	doins out/Release/libppGoogleNaClPluginChrome.so || die
+	# fi
 
 	local sedargs=( -e "s:/usr/lib/:/usr/$(get_libdir)/:g" )
 	if [[ -n ${CHROMIUM_SUFFIX} ]]; then
@@ -604,16 +643,15 @@ src_install() {
 	doins out/Release/*.bin || die
 	doins out/Release/*.pak || die
 
+	if use gn; then
+		doins out/Release/icudtl.dat || die
+	fi
+
 	doins -r out/Release/locales || die
 	doins -r out/Release/resources || die
 
 	newman out/Release/chrome.1 chromium${CHROMIUM_SUFFIX}.1 || die
 	newman out/Release/chrome.1 chromium-browser${CHROMIUM_SUFFIX}.1 || die
-
-	doexe out/Release/libffmpegsumo.so || die
-	if use widevine; then
-		doexe out/Release/libwidevinecdmadapter.so || die
-	fi
 
 	# Install icons and desktop entry.
 	local branding size

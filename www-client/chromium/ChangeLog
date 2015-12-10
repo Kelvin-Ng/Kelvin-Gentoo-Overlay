@@ -1,467 +1,486 @@
 # ChangeLog for www-client/chromium
 # Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/ChangeLog,v 1.1265 2015/07/06 19:38:09 phajdan.jr Exp $
+# (auto-generated from git log)
 
-*chromium-45.0.2438.3-r1 (06 Jul 2015)
+*chromium-46.0.2467.2 (09 Aug 2015)
+*chromium-45.0.2454.15-r1 (09 Aug 2015)
+*chromium-45.0.2454.15 (09 Aug 2015)
+*chromium-45.0.2454.6 (09 Aug 2015)
+*chromium-44.0.2403.89 (09 Aug 2015)
 
-  06 Jul 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-45.0.2438.3-r1.ebuild:
-  Use system libsrtp, bug #459932 by Andrius Stikonas.
+  09 Aug 2015; Robin H. Johnson <robbat2@gentoo.org>
+  +chromium-44.0.2403.89.ebuild, +chromium-45.0.2454.6.ebuild,
+  +chromium-45.0.2454.15.ebuild, +chromium-45.0.2454.15-r1.ebuild,
+  +chromium-46.0.2467.2.ebuild, +files/chromium-browser.xml,
+  +files/chromium-cups-r0.patch, +files/chromium-gcc-4.7-r0.patch,
+  +files/chromium-gnome-r0.patch, +files/chromium-hotwording-2403.patch,
+  +files/chromium-launcher-r2.sh, +files/chromium-launcher-r3.sh,
+  +files/chromium-libsecret-r0.patch, +files/chromium-system-jinja-r6.patch,
+  +files/chromium-system-jinja-r7.patch,
+  +files/chromium-system-libvpx-r0.patch, +files/chromium-widevine.patch,
+  +files/chromium.default, +files/dot-gclient, +metadata.xml:
+  proj/gentoo: Initial commit
 
-*chromium-44.0.2403.61 (02 Jul 2015)
+  This commit represents a new era for Gentoo:
+  Storing the gentoo-x86 tree in Git, as converted from CVS.
 
-  02 Jul 2015; Mike Gilbert <floppym@gentoo.org> +chromium-44.0.2403.61.ebuild,
-  -chromium-44.0.2403.18.ebuild:
-  Beta channel bump.
+  This commit is the start of the NEW history.
+  Any historical data is intended to be grafted onto this point.
 
-  29 Jun 2015; Mike Gilbert <floppym@gentoo.org> chromium-43.0.2357.130.ebuild,
-  chromium-44.0.2403.30.ebuild:
-  Depend on libvpx[postproc]. Thanks to Johan Hovold on bug 553502.
+  Creation process:
+  1. Take final CVS checkout snapshot
+  2. Remove ALL ChangeLog* files
+  3. Transform all Manifests to thin
+  4. Remove empty Manifests
+  5. Convert all stale $Header$/$Id$ CVS keywords to non-expanded Git $Id$
+  5.1. Do not touch files with -kb/-ko keyword flags.
 
-  26 Jun 2015; Mike Gilbert <floppym@gentoo.org> -chromium-43.0.2357.65.ebuild,
-  -chromium-43.0.2357.73.ebuild:
-  Remove old.
+  Signed-off-by: Robin H. Johnson <robbat2@gentoo.org>
+  X-Thanks: Alec Warner <antarus@gentoo.org> - did the GSoC 2006 migration
+  tests
+  X-Thanks: Robin H. Johnson <robbat2@gentoo.org> - infra guy, herding this
+  project
+  X-Thanks: Nguyen Thai Ngoc Duy <pclouds@gentoo.org> - Former Gentoo
+  developer, wrote Git features for the migration
+  X-Thanks: Brian Harring <ferringb@gentoo.org> - wrote much python to improve
+  cvs2svn
+  X-Thanks: Rich Freeman <rich0@gentoo.org> - validation scripts
+  X-Thanks: Patrick Lauer <patrick@gentoo.org> - Gentoo dev, running new 2014
+  work in migration
+  X-Thanks: Michał Górny <mgorny@gentoo.org> - scripts, QA, nagging
+  X-Thanks: All of other Gentoo developers - many ideas and lots of paint on
+  the bikeshed
 
-*chromium-45.0.2438.3 (24 Jun 2015)
+*chromium-46.0.2478.0 (13 Aug 2015)
 
-  24 Jun 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-45.0.2427.7.ebuild, +chromium-45.0.2438.3.ebuild:
-  Dev channel bump. Use system icu. Use lite tarball. Remove old.
+  13 Aug 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-46.0.2478.0.ebuild:
+  dev channel bump
 
-  24 Jun 2015; Agostino Sarubbo <ago@gentoo.org> chromium-43.0.2357.130.ebuild:
-  Stable for x86, wrt bug #552904
+  Package-Manager: portage-2.2.20
 
-  24 Jun 2015; Agostino Sarubbo <ago@gentoo.org> chromium-43.0.2357.130.ebuild:
-  Stable for amd64, wrt bug #552904
+*chromium-46.0.2486.0 (19 Aug 2015)
 
-*chromium-43.0.2357.130 (23 Jun 2015)
+  19 Aug 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-46.0.2467.2.ebuild, +chromium-46.0.2486.0.ebuild:
+  dev channel bump
 
-  23 Jun 2015; Mike Gilbert <floppym@gentoo.org> +chromium-43.0.2357.130.ebuild:
-  Bump. Add hotwording use flag.
+  Package-Manager: portage-2.2.20
 
-  23 Jun 2015; Mike Gilbert <floppym@gentoo.org>
-  +files/chromium-hotwording-2403.patch, chromium-44.0.2403.30.ebuild:
-  Backport hotwording flag.
+*chromium-45.0.2454.37 (19 Aug 2015)
 
-  21 Jun 2015; Mike Gilbert <floppym@gentoo.org> chromium-45.0.2431.0.ebuild,
-  metadata.xml:
-  Make 'hotwording' optional at build time, bug 552298.
+  19 Aug 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-45.0.2454.6.ebuild, +chromium-45.0.2454.37.ebuild:
+  beta channel bump
 
-*chromium-45.0.2431.0 (17 Jun 2015)
+  Package-Manager: portage-2.2.20
 
-  17 Jun 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-45.0.2421.0.ebuild, +chromium-45.0.2431.0.ebuild:
-  Dev channel bump. Remove old.
+*chromium-45.0.2454.46 (23 Aug 2015)
 
-*chromium-45.0.2427.7 (12 Jun 2015)
+  23 Aug 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-45.0.2454.15.ebuild, -chromium-45.0.2454.15-r1.ebuild,
+  +chromium-45.0.2454.46.ebuild:
+  Beta channel bump (45.0.2454.46)
 
-  12 Jun 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-45.0.2414.0.ebuild, +chromium-45.0.2427.7.ebuild:
-  Dev channel bump. Remove old.
+  Package-Manager: portage-2.2.20_p134
 
-*chromium-44.0.2403.30 (09 Jun 2015)
+  24 Aug 2015; Justin Lecher <jlec@gentoo.org> metadata.xml:
+  Use https by default
 
-  09 Jun 2015; Mike Gilbert <floppym@gentoo.org> +chromium-44.0.2403.30.ebuild,
-  -chromium-44.0.2403.4.ebuild:
-  Beta channel bump.
+  Convert all URLs for sites supporting encrypted connections from http to
+  https
 
-*chromium-45.0.2421.0 (08 Jun 2015)
+  Signed-off-by: Justin Lecher <jlec@gentoo.org>
 
-  08 Jun 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-45.0.2421.0.ebuild:
-  Dev channel bump.
+  24 Aug 2015; Mike Gilbert <floppym@gentoo.org> metadata.xml:
+  Revert DOCTYPE SYSTEM https changes in metadata.xml
 
-  04 Jun 2015; Michael Palimaka <kensington@gentoo.org>
-  chromium-43.0.2357.65.ebuild, chromium-43.0.2357.73.ebuild,
-  chromium-44.0.2403.18.ebuild, chromium-44.0.2403.4.ebuild,
-  chromium-45.0.2414.0.ebuild:
-  Move various kde-base packages to kde-apps.
+  repoman does not yet accept the https version.
+  This partially reverts eaaface92ee81f30a6ac66fe7acbcc42c00dc450.
 
-*chromium-45.0.2414.0 (01 Jun 2015)
+  Bug: https://bugs.gentoo.org/552720
 
-  01 Jun 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-45.0.2414.0.ebuild:
-  Dev channel bump. Use bundled libvpx (http://crbug.com/494939).
+*chromium-46.0.2490.6 (30 Aug 2015)
 
-*chromium-44.0.2403.18 (01 Jun 2015)
+  30 Aug 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-46.0.2478.0.ebuild, +chromium-46.0.2490.6.ebuild:
+  dev channel bump (46.0.2490.6)
 
-  01 Jun 2015; Mike Gilbert <floppym@gentoo.org> +chromium-44.0.2403.18.ebuild,
-  -chromium-44.0.2398.0.ebuild:
-  Beta channel bump.
+  Package-Manager: portage-2.2.20.1
 
-*chromium-43.0.2357.73 (23 May 2015)
+*chromium-45.0.2454.85 (02 Sep 2015)
 
-  23 May 2015; Mike Gilbert <floppym@gentoo.org> +chromium-43.0.2357.73.ebuild:
-  Beta channel bump.
+  02 Sep 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-45.0.2454.37.ebuild, +chromium-45.0.2454.85.ebuild:
+  Bump to 45.0.2454.85
 
-  20 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-43.0.2357.65.ebuild, chromium-44.0.2403.4.ebuild:
-  Enable USE="proprietary-codecs" by default, bug #547800 by miflab.
+  Package-Manager: portage-2.2.20
 
-*chromium-44.0.2403.4 (20 May 2015)
+*chromium-47.0.2498.0 (02 Sep 2015)
 
-  20 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-44.0.2391.0.ebuild, +chromium-44.0.2403.4.ebuild, metadata.xml:
-  Dev channel bump. Remove old.
+  02 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-47.0.2498.0.ebuild:
+  dev channel bump (47.0.2498.0)
 
-  20 May 2015; Agostino Sarubbo <ago@gentoo.org> -chromium-42.0.2311.135.ebuild,
-  -chromium-43.0.2357.52.ebuild:
+  Package-Manager: portage-2.2.20.1
+
+  03 Sep 2015; Agostino Sarubbo <ago@gentoo.org> chromium-45.0.2454.85.ebuild:
+  amd64 stable wrt bug #559384
+
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="amd64"
+
+  03 Sep 2015; Agostino Sarubbo <ago@gentoo.org> chromium-45.0.2454.85.ebuild:
+  x86 stable wrt bug #559384
+
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="x86"
+
+*chromium-46.0.2490.13 (08 Sep 2015)
+
+  08 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-46.0.2486.0.ebuild, +chromium-46.0.2490.13.ebuild:
+  beta channel bump (46.0.2490.13)
+
+  Package-Manager: portage-2.2.20.1
+
+  08 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  chromium-45.0.2454.85.ebuild, +files/chromium-tracing-r0.patch:
+  fix build when dev-python/tracing is installed
+
+  This fixes bug #556812 by Helmut Jarausch.
+
+  Culprit has been identified by Guillaume ZITTA.
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-47.0.2503.0 (08 Sep 2015)
+
+  08 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-47.0.2503.0.ebuild:
+  dev channel bump (47.0.2503.0); temporarily use bundled icu
+
+  Package-Manager: portage-2.2.20.1
+
+  11 Sep 2015; Mike Gilbert <floppym@gentoo.org> chromium-47.0.2503.0.ebuild,
+  +files/chromium-widevine-r1.patch, metadata.xml:
+  Restore widevine support in the dev channel (47)
+
+  This includes a minimal patch to get chromium to compile. The widevine
+  version is reported as "unknown" in chrome://plugins. A more robust
+  solution should really be implemented upstream.
+
+  Tested by viewing a video on Netflix.
+
+  Based on work by Greg Turner and Ari Entlich.
+
+  Closes #37.
+
+  Bug: https://bugs.gentoo.org/547630
+  Bug: https://crbug.com/473866
+
+  Package-Manager: portage-2.2.20
+
+  15 Sep 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-44.0.2403.89.ebuild, -chromium-45.0.2454.46.ebuild:
   Remove old
 
-  20 May 2015; Agostino Sarubbo <ago@gentoo.org> chromium-43.0.2357.65.ebuild:
-  Stable for x86, wrt bug #549944
+  Package-Manager: portage-2.2.20
 
-  20 May 2015; Agostino Sarubbo <ago@gentoo.org> chromium-43.0.2357.65.ebuild:
-  Stable for amd64, wrt bug #549944
+  15 Sep 2015; Mike Gilbert <floppym@gentoo.org> chromium-45.0.2454.85.ebuild,
+  chromium-46.0.2490.13.ebuild, chromium-47.0.2503.0.ebuild:
+  Filter -mno-avx
 
-*chromium-43.0.2357.65 (17 May 2015)
+  Bug: https://bugs.gentoo.org/560090
 
-  17 May 2015; Mike Gilbert <floppym@gentoo.org> +chromium-43.0.2357.65.ebuild,
-  -chromium-43.0.2357.45.ebuild, chromium-43.0.2357.52.ebuild,
-  chromium-44.0.2398.0.ebuild:
-  Beta channel bump. Unpin dev-python/ply.
+  Package-Manager: portage-2.2.20
 
-  14 May 2015; Mike Gilbert <floppym@gentoo.org> chromium-43.0.2357.52.ebuild,
-  chromium-44.0.2398.0.ebuild:
-  Pin dev-python/ply-3.4 until bug 549328 is resolved.
+*chromium-46.0.2490.22 (16 Sep 2015)
 
-*chromium-44.0.2398.0 (13 May 2015)
+  16 Sep 2015; Mike Gilbert <floppym@gentoo.org> -chromium-46.0.2490.6.ebuild,
+  +chromium-46.0.2490.22.ebuild:
+  beta channel bump (46.0.2490.22)
 
-  13 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-44.0.2383.0.ebuild, +chromium-44.0.2398.0.ebuild:
-  Dev channel bump. Remove old.
+  Package-Manager: portage-2.2.20
 
-*chromium-43.0.2357.52 (08 May 2015)
+*chromium-47.0.2508.0 (17 Sep 2015)
 
-  08 May 2015; Mike Gilbert <floppym@gentoo.org> +chromium-43.0.2357.52.ebuild,
-  -chromium-43.0.2357.18.ebuild:
-  Beta channel bump.
+  17 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-47.0.2498.0.ebuild, +chromium-47.0.2508.0.ebuild:
+  dev channel bump (47.0.2508.0); back to system icu
 
-  07 May 2015; Mike Gilbert <floppym@gentoo.org> chromium-44.0.2391.0.ebuild:
-  Use bundled libsecret headers to avoid buildtime dependency on libsecret. The
-  library is optionally dlopen-ed at runtime. Bug 538224.
+  Package-Manager: portage-2.2.20.1
 
-  07 May 2015; Agostino Sarubbo <ago@gentoo.org> -chromium-42.0.2311.90.ebuild:
+*chromium-47.0.2516.0 (25 Sep 2015)
+
+  25 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-47.0.2503.0.ebuild, +chromium-47.0.2516.0.ebuild, metadata.xml:
+  dev channel bump (47.0.2516.0)
+
+  Add experimental gtk3 support, bug #559378 by xpue
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-45.0.2454.101 (26 Sep 2015)
+
+  26 Sep 2015; Mike Gilbert <floppym@gentoo.org>
+  +chromium-45.0.2454.101.ebuild:
+  Stable bump to 45.0.2454.101
+
+  Package-Manager: portage-2.2.21_p119
+
+  26 Sep 2015; Richard Freeman <rich0@gentoo.org>
+  chromium-45.0.2454.101.ebuild:
+  amd64 stable
+
+  Gentoo-bug: 561448
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-46.0.2490.42 (27 Sep 2015)
+
+  27 Sep 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-46.0.2490.13.ebuild, +chromium-46.0.2490.42.ebuild:
+  Beta channel bump (46.0.2490.42)
+
+  Package-Manager: portage-2.2.22_p3
+
+  27 Sep 2015; Mikle Kolyada <zlogene@gentoo.org>
+  chromium-45.0.2454.101.ebuild:
+  x86 stable wrt bug #561448
+
+  Package-Manager: portage-2.2.20.1
+
+  29 Sep 2015; Mike Gilbert <floppym@gentoo.org>
+  chromium-45.0.2454.101.ebuild, chromium-46.0.2490.42.ebuild,
+  chromium-47.0.2516.0.ebuild:
+  Fix build with clang
+
+  Only set host vars when cross-compiling.
+  This lets a native clang build work by default.
+
+  https://bugs.gentoo.org/561726
+
+  Package-Manager: portage-2.2.22_p3
+
+*chromium-47.0.2522.1 (30 Sep 2015)
+
+  30 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-47.0.2508.0.ebuild, +chromium-47.0.2522.1.ebuild:
+  dev channel bump (47.0.2522.1)
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-47.0.2522.1-r1 (30 Sep 2015)
+
+  30 Sep 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-47.0.2522.1-r1.ebuild, +files/chromium-system-ffmpeg-r0.patch:
+  use system ffmpeg
+
+  This is based on patch by Andreas Cadhalpun
+  from https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=763632#29
+
+  Also dropping ~arm.
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-47.0.2526.6 (07 Oct 2015)
+
+  07 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-47.0.2516.0.ebuild, +chromium-47.0.2526.6.ebuild, metadata.xml:
+  dev channel bump (47.0.2526.6); add system-ffmpeg USE flag
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-47.0.2526.16 (15 Oct 2015)
+
+  15 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-47.0.2522.1.ebuild, -chromium-47.0.2522.1-r1.ebuild,
+  +chromium-47.0.2526.16.ebuild:
+  dev channel bump (47.0.2526.16)
+
+  Package-Manager: portage-2.2.20.1
+
+  15 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  chromium-47.0.2526.6.ebuild, chromium-47.0.2526.16.ebuild:
+  restore ~arm keyword
+
+  Package-Manager: portage-2.2.20.1
+
+*chromium-46.0.2490.71 (15 Oct 2015)
+
+  15 Oct 2015; Mike Gilbert <floppym@gentoo.org>
+  +chromium-46.0.2490.71.ebuild:
+  Stable bump (46.0.2490.71)
+
+  Package-Manager: portage-2.2.23_p4
+
+  16 Oct 2015; Richard Freeman <rich0@gentoo.org>
+  chromium-46.0.2490.71.ebuild:
+  amd64 stable
+
+  Gentoo-bug: 563098
+
+  Package-Manager: portage-2.2.20.1
+
+  16 Oct 2015; Agostino Sarubbo <ago@gentoo.org> chromium-46.0.2490.71.ebuild:
+  x86 stable wrt bug #563098
+
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="x86"
+
+*chromium-48.0.2535.0 (16 Oct 2015)
+
+  16 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-48.0.2535.0.ebuild:
+  dev channel bump (48.0.2535.0)
+
+  Package-Manager: portage-2.2.20.1
+
+  19 Oct 2015; Agostino Sarubbo <ago@gentoo.org>
+  -chromium-45.0.2454.85.ebuild, -chromium-45.0.2454.101.ebuild,
+  -chromium-46.0.2490.22.ebuild, -chromium-46.0.2490.42.ebuild:
   Remove old
 
-  07 May 2015; Agostino Sarubbo <ago@gentoo.org> chromium-42.0.2311.135.ebuild:
-  Stable for x86, wrt bug #548108
+  Package-Manager: portage-2.2.20.1
 
-  07 May 2015; Agostino Sarubbo <ago@gentoo.org> chromium-42.0.2311.135.ebuild:
-  Stable for amd64, wrt bug #548108
+*chromium-48.0.2541.0 (21 Oct 2015)
 
-  06 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-42.0.2311.135.ebuild, chromium-43.0.2357.45.ebuild,
-  chromium-44.0.2391.0.ebuild:
-  Depend on >=app-crypt/libsecret-0.18, bug #548194 by Andrew John Hughes.
+  21 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-48.0.2541.0.ebuild, metadata.xml:
+  dev channel bump (48.0.2541.0); fix bug #562590 by W. Trevor King
 
-*chromium-44.0.2391.0 (06 May 2015)
+  Package-Manager: portage-2.2.20.1
 
-  06 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-44.0.2376.0.ebuild, +chromium-44.0.2391.0.ebuild:
-  Dev channel bump. Use bundled icu. Remove broken widevine support (bug
-  #547630 by Austin M. Matherne). Remove old.
+  23 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  chromium-47.0.2526.16.ebuild:
+  backport fix for bug #562590 by W. Trevor King to M47
 
-*chromium-43.0.2357.45 (06 May 2015)
+  Package-Manager: portage-2.2.20.1
 
-  06 May 2015; Mike Gilbert <floppym@gentoo.org> +chromium-43.0.2357.45.ebuild,
-  -chromium-43.0.2357.2.ebuild:
-  Bump.
+*chromium-48.0.2547.0 (29 Oct 2015)
 
-*chromium-42.0.2311.135 (01 May 2015)
+  29 Oct 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-48.0.2535.0.ebuild, +chromium-48.0.2547.0.ebuild:
+  dev channel bump (48.0.2547.0)
 
-  01 May 2015; Mike Gilbert <floppym@gentoo.org> +chromium-42.0.2311.135.ebuild:
-  Stable channel bump.
+  Package-Manager: portage-2.2.20.1
 
-*chromium-44.0.2383.0 (01 May 2015)
+*chromium-48.0.2552.0 (05 Nov 2015)
 
-  01 May 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-44.0.2369.0.ebuild, +chromium-44.0.2383.0.ebuild:
-  Dev channel bump. Remove old.
+  05 Nov 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-48.0.2541.0.ebuild, +chromium-48.0.2552.0.ebuild:
+  dev channel bump (48.0.2552.0)
 
-  23 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-44.0.2376.0.ebuild:
-  Add available memory check to pkg_pretend, bug #471810 by hasufell.
+  Package-Manager: portage-2.2.20.1
 
-*chromium-44.0.2376.0 (22 Apr 2015)
+*chromium-47.0.2526.49 (08 Nov 2015)
 
-  22 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-44.0.2376.0.ebuild:
-  Dev channel bump.
+  08 Nov 2015; Mike Gilbert <floppym@gentoo.org> -chromium-47.0.2526.6.ebuild,
+  +chromium-47.0.2526.49.ebuild:
+  Beta channel bump (47.0.2526.49)
 
-  20 Apr 2015; Mike Gilbert <floppym@gentoo.org> chromium-42.0.2311.90.ebuild,
-  chromium-43.0.2357.18.ebuild, chromium-44.0.2369.0.ebuild:
-  Prevent libvpx build failures. Bug 530248, 544702, 546984.
+  Package-Manager: portage-2.2.23_p18
 
-*chromium-44.0.2369.0 (17 Apr 2015)
+*chromium-46.0.2490.86 (11 Nov 2015)
 
-  17 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-41.0.2272.118.ebuild, -chromium-42.0.2311.50.ebuild,
-  -chromium-42.0.2311.60.ebuild, +chromium-44.0.2369.0.ebuild:
-  Dev channel bump. Remove old.
+  11 Nov 2015; Mike Gilbert <floppym@gentoo.org>
+  +chromium-46.0.2490.86.ebuild:
+  Stable channel bump (46.0.2490.86)
 
-  17 Apr 2015; Agostino Sarubbo <ago@gentoo.org> chromium-42.0.2311.90.ebuild:
-  Stable for x86, wrt bug #546728
+  Package-Manager: portage-2.2.23_p26
 
-  16 Apr 2015; Richard Freeman <rich0@gentoo.org> chromium-42.0.2311.90.ebuild:
-  amd64 stable - 546728
+  12 Nov 2015; Agostino Sarubbo <ago@gentoo.org> chromium-46.0.2490.86.ebuild:
+  amd64 stable wrt bug #565510
 
-*chromium-42.0.2311.90 (16 Apr 2015)
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="amd64"
 
-  16 Apr 2015; Mike Gilbert <floppym@gentoo.org> +chromium-42.0.2311.90.ebuild:
-  Stable channel bump.
+  12 Nov 2015; Agostino Sarubbo <ago@gentoo.org> chromium-46.0.2490.86.ebuild:
+  x86 stable wrt bug #565510
 
-*chromium-43.0.2357.18 (15 Apr 2015)
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="x86"
 
-  15 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-43.0.2351.3.ebuild, +chromium-43.0.2357.18.ebuild:
-  Dev channel bump. Drop unneeded dependency on libgcrypt. Remove old.
-
-*chromium-43.0.2357.2 (09 Apr 2015)
-
-  09 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-43.0.2342.2.ebuild, +chromium-43.0.2357.2.ebuild,
-  +files/chromium-system-libvpx-r0.patch:
-  Dev channel bump. Use system libvpx. Remove old.
-
-  08 Apr 2015; Michał Górny <mgorny@gentoo.org> chromium-41.0.2272.118.ebuild,
-  chromium-42.0.2311.50.ebuild, chromium-42.0.2311.60.ebuild,
-  chromium-43.0.2342.2.ebuild, chromium-43.0.2351.3.ebuild:
-  Drop old Python implementations
-
-  07 Apr 2015; Mike Gilbert <floppym@gentoo.org> -chromium-41.0.2272.76.ebuild:
-  Remove old.
-
-  07 Apr 2015; Agostino Sarubbo <ago@gentoo.org> chromium-41.0.2272.118.ebuild:
-  Stable for x86, wrt bug #545300
-
-  06 Apr 2015; Richard Freeman <rich0@gentoo.org>
-  chromium-41.0.2272.118.ebuild:
-  amd64 stable - 545300
-
-*chromium-41.0.2272.118 (06 Apr 2015)
-
-  06 Apr 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.118.ebuild:
-  Stable channel bump.
-
-*chromium-43.0.2351.3 (02 Apr 2015)
-
-  02 Apr 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-43.0.2334.0.ebuild, +chromium-43.0.2351.3.ebuild,
-  +files/chromium-gnome-r0.patch:
-  Dev channel bump. Fix compile without gconf, bug #544528 by Andrew Waters.
-  Remove old.
-
-*chromium-42.0.2311.60 (27 Mar 2015)
-
-  27 Mar 2015; Mike Gilbert <floppym@gentoo.org> +chromium-42.0.2311.60.ebuild,
-  -chromium-42.0.2311.15.ebuild:
-  Beta channel bump.
-
-*chromium-43.0.2342.2 (25 Mar 2015)
-
-  25 Mar 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-43.0.2327.5.ebuild, +chromium-43.0.2342.2.ebuild:
-  Dev channel bump. Remove old.
-
-*chromium-42.0.2311.50 (19 Mar 2015)
-
-  19 Mar 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-42.0.2311.4.ebuild, +chromium-42.0.2311.50.ebuild:
-  Beta channel bump. Remove old.
-
-*chromium-43.0.2334.0 (18 Mar 2015)
-
-  18 Mar 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-43.0.2334.0.ebuild, metadata.xml:
-  Dev channel bump. Replace bindist with proprietary-codecs USE flag (bug
-  #538628 by pacho).
-
-*chromium-43.0.2327.5 (12 Mar 2015)
-
-  12 Mar 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-43.0.2327.5.ebuild:
-  Dev channel bump.
-
-  05 Mar 2015; Agostino Sarubbo <ago@gentoo.org> -chromium-40.0.2214.111.ebuild,
-  -chromium-41.0.2272.64.ebuild, -chromium-41.0.2272.74.ebuild:
+  12 Nov 2015; Agostino Sarubbo <ago@gentoo.org>
+  -chromium-46.0.2490.71.ebuild:
   Remove old
 
-  05 Mar 2015; Agostino Sarubbo <ago@gentoo.org> chromium-41.0.2272.76.ebuild:
-  Stable for x86, wrt bug #542090
+  Package-Manager: portage-2.2.20.1
 
-  05 Mar 2015; Agostino Sarubbo <ago@gentoo.org> chromium-41.0.2272.76.ebuild:
-  Stable for amd64, wrt bug #542090
+*chromium-47.0.2526.58 (13 Nov 2015)
 
-*chromium-42.0.2311.15 (04 Mar 2015)
+  13 Nov 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-47.0.2526.16.ebuild, +chromium-47.0.2526.58.ebuild:
+  Beta channel bump (47.0.2526.58)
 
-  04 Mar 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-42.0.2305.3.ebuild, +chromium-42.0.2311.15.ebuild:
-  Dev channel bump. Fix bug #541816 by Toralf Foerster. Remove old.
+  Package-Manager: portage-2.2.24_p19
 
-*chromium-41.0.2272.76 (04 Mar 2015)
+  13 Nov 2015; Michael Palimaka <kensington@gentoo.org>
+  chromium-46.0.2490.86.ebuild, chromium-47.0.2526.49.ebuild,
+  chromium-47.0.2526.58.ebuild, chromium-48.0.2547.0.ebuild,
+  chromium-48.0.2552.0.ebuild:
+  kde-apps/oxygen-icons: pkgmove to kde-frameworks/oxygen-icons
 
-  04 Mar 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.76.ebuild:
-  Stable channel bump.
+  kde4-base.eclass: Recognize KDEBASE in kde-frameworks
+  kde4-functions.eclass: Change RDEPEND
+  chromium.eclass: Minor change
+  Various ebuilds: kde-apps/oxygen-icons -> kde-frameworks/oxygen-icons
 
-*chromium-41.0.2272.74 (01 Mar 2015)
+  Package-Manager: portage-2.2.23
 
-  01 Mar 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.74.ebuild,
-  -chromium-41.0.2272.35.ebuild:
-  Beta channel bump.
+*chromium-48.0.2560.0 (19 Nov 2015)
 
-*chromium-42.0.2311.4 (25 Feb 2015)
+  19 Nov 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  +chromium-48.0.2560.0.ebuild, +files/chromium-last-commit-position-r0.patch,
+  +files/chromium-snapshot-toolchain-r0.patch,
+  +files/chromium-werror-r0.patch, metadata.xml:
+  dev channel bump (48.0.2560.0); experimental GN support
 
-  25 Feb 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-40.0.2214.91.ebuild, -chromium-40.0.2214.93.ebuild,
-  -chromium-42.0.2292.0.ebuild, +chromium-42.0.2311.4.ebuild:
-  Dev channel bump. Remove old.
+  Package-Manager: portage-2.2.20.1
 
-*chromium-41.0.2272.64 (21 Feb 2015)
+*chromium-48.0.2564.10 (29 Nov 2015)
 
-  21 Feb 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.64.ebuild,
-  -chromium-41.0.2272.12-r1.ebuild, -chromium-41.0.2272.16.ebuild:
-  Beta channel bump.
+  29 Nov 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-48.0.2547.0.ebuild, -chromium-48.0.2552.0.ebuild,
+  +chromium-48.0.2564.10.ebuild, +files/chromium-rpath-r0.patch,
+  +files/chromium-system-ffmpeg-r1.patch:
+  dev channel bump (48.0.2564.10)
 
-  19 Feb 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-42.0.2305.3.ebuild:
-  Fix build with clang, bug #502456 by andrey.kudryavtsev
+  Package-Manager: portage-2.2.20.1
 
-*chromium-42.0.2305.3 (18 Feb 2015)
+*chromium-47.0.2526.73 (02 Dec 2015)
 
-  18 Feb 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-42.0.2288.6.ebuild, +chromium-42.0.2305.3.ebuild:
-  Dev channel bump. Remove old.
+  02 Dec 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-47.0.2526.49.ebuild, +chromium-47.0.2526.73.ebuild:
+  Stable channel bump (47.0.2526.73)
 
-  15 Feb 2015; Agostino Sarubbo <ago@gentoo.org> chromium-40.0.2214.111.ebuild:
-  Stable for x86, wrt bug #539094
+  Package-Manager: portage-2.2.26_p3
 
-*chromium-42.0.2292.0 (09 Feb 2015)
+  03 Dec 2015; Agostino Sarubbo <ago@gentoo.org> chromium-47.0.2526.73.ebuild:
+  amd64 stable wrt bug #567308
 
-  09 Feb 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-42.0.2292.0.ebuild:
-  Dev channel bump.
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="amd64"
 
-  09 Feb 2015; Jason A. Donenfeld <zx2c4@gentoo.org>
-  chromium-40.0.2214.111.ebuild, chromium-40.0.2214.91.ebuild,
-  chromium-40.0.2214.93.ebuild, chromium-41.0.2272.12-r1.ebuild,
-  chromium-41.0.2272.16.ebuild, chromium-41.0.2272.35.ebuild,
-  chromium-42.0.2288.6.ebuild, metadata.xml:
-  Unbreak repoman
+  03 Dec 2015; Agostino Sarubbo <ago@gentoo.org> chromium-47.0.2526.73.ebuild:
+  x86 stable wrt bug #567308
 
-  09 Feb 2015; Mike Gilbert <floppym@gentoo.org> chromium-40.0.2214.111.ebuild,
-  chromium-40.0.2214.91.ebuild, chromium-40.0.2214.93.ebuild,
-  chromium-41.0.2272.12-r1.ebuild, chromium-41.0.2272.16.ebuild,
-  chromium-41.0.2272.35.ebuild, chromium-42.0.2288.6.ebuild, metadata.xml:
-  Revert widevine changes, which broke repoman
+  Package-Manager: portage-2.2.20.1
+  RepoMan-Options: --include-arches="x86"
 
-  08 Feb 2015; Jason A. Donenfeld <zx2c4@gentoo.org>
-  +files/chromium-widevine.patch, chromium-40.0.2214.111.ebuild,
-  chromium-40.0.2214.91.ebuild, chromium-40.0.2214.93.ebuild,
-  chromium-41.0.2272.12-r1.ebuild, chromium-41.0.2272.16.ebuild,
-  chromium-41.0.2272.35.ebuild, chromium-42.0.2288.6.ebuild, metadata.xml:
-  Support widevine
+  03 Dec 2015; Mike Gilbert <floppym@gentoo.org>
+  -chromium-46.0.2490.86.ebuild, -chromium-47.0.2526.58.ebuild:
+  Remove old
 
-  08 Feb 2015; Richard Freeman <rich0@gentoo.org>
-  chromium-40.0.2214.111.ebuild:
-  amd64 stable - 539094
+  Package-Manager: portage-2.2.26_p10
 
-*chromium-40.0.2214.111 (07 Feb 2015)
+*chromium-48.0.2564.23 (07 Dec 2015)
 
-  07 Feb 2015; Mike Gilbert <floppym@gentoo.org> +chromium-40.0.2214.111.ebuild:
-  Stable channel bump.
+  07 Dec 2015; Pawel Hajdan, Jr <phajdan.jr@gentoo.org>
+  -chromium-48.0.2560.0.ebuild, +chromium-48.0.2564.23.ebuild,
+  +files/chromium-system-icu-r0.patch:
+  beta channel bump (48.0.2564.23)
 
-*chromium-41.0.2272.35 (05 Feb 2015)
+  Package-Manager: portage-2.2.20.1
 
-  05 Feb 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.35.ebuild:
-  Beta channel bump.
-
-*chromium-42.0.2288.6 (29 Jan 2015)
-
-  29 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-42.0.2288.6.ebuild, +files/chromium-libsecret-r0.patch:
-  Dev channel bump.
-
-*chromium-40.0.2214.93 (29 Jan 2015)
-
-  29 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-40.0.2214.93.ebuild:
-  Stable channel bump.
-
-*chromium-41.0.2272.16 (26 Jan 2015)
-
-  26 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-41.0.2272.16.ebuild,
-  -chromium-41.0.2272.12.ebuild, -chromium-41.0.2272.3.ebuild:
-  Beta channel bump.
-
-  23 Jan 2015; Mike Gilbert <floppym@gentoo.org> -chromium-39.0.2171.65.ebuild,
-  -chromium-39.0.2171.99.ebuild, -chromium-40.0.2214.85-r1.ebuild,
-  -chromium-40.0.2214.85.ebuild:
-  Remove old.
-
-  23 Jan 2015; Agostino Sarubbo <ago@gentoo.org> chromium-40.0.2214.91.ebuild:
-  Stable for x86, wrt bug #537366
-
-  23 Jan 2015; Agostino Sarubbo <ago@gentoo.org> chromium-40.0.2214.91.ebuild:
-  Stable for amd64, wrt bug #537366
-
-*chromium-40.0.2214.91 (23 Jan 2015)
-
-  23 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-40.0.2214.91.ebuild,
-  -chromium-40.0.2214.69.ebuild:
-  Stable channel bump.
-
-*chromium-41.0.2272.12-r1 (22 Jan 2015)
-*chromium-40.0.2214.85-r1 (22 Jan 2015)
-
-  22 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  +chromium-40.0.2214.85-r1.ebuild, +chromium-41.0.2272.12-r1.ebuild,
-  +files/chromium-cups-r0.patch:
-  Fix crash with USE="-cups", bug #530682 by Jakub Kadlcik.
-
-*chromium-41.0.2272.12 (21 Jan 2015)
-
-  21 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-41.0.2267.0.ebuild, +chromium-41.0.2272.12.ebuild:
-  Dev channel bump. Remove old.
-
-  18 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-41.0.2272.3.ebuild, metadata.xml:
-  Add optional hidpi support, bug #531950 by Bjoern Olausson.
-
-  18 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  chromium-40.0.2214.85.ebuild, chromium-41.0.2272.3.ebuild:
-  Require at least gcc-4.8, bug #535730 by Anton Kochkov.
-
-*chromium-40.0.2214.85 (16 Jan 2015)
-
-  16 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-40.0.2214.85.ebuild,
-  -chromium-40.0.2214.45.ebuild:
-  Beta channel bump.
-
-*chromium-39.0.2171.99 (15 Jan 2015)
-
-  15 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-39.0.2171.99.ebuild:
-  Stable channel bump.
-
-*chromium-41.0.2272.3 (14 Jan 2015)
-
-  14 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-41.0.2251.0.ebuild, +chromium-41.0.2272.3.ebuild:
-  Dev channel bump. Remove old.
-
-*chromium-40.0.2214.69 (09 Jan 2015)
-
-  09 Jan 2015; Mike Gilbert <floppym@gentoo.org> +chromium-40.0.2214.69.ebuild,
-  -chromium-40.0.2214.28.ebuild:
-  Beta channel bump.
-
-*chromium-41.0.2267.0 (07 Jan 2015)
-
-  07 Jan 2015; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  -chromium-41.0.2243.0.ebuild, +chromium-41.0.2267.0.ebuild:
-  Dev channel bump. Remove old.
-
-  01 Jan 2015; Andreas K. Huettel <dilfridge@gentoo.org> +ChangeLog-2014,
-  ChangeLog: Split ChangeLog
-
-  For previous entries, please see ChangeLog-2014.
